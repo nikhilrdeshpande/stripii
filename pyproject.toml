@@ -1,0 +1,83 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "stripii"
+version = "0.3.0"
+description = "Strip personal data out of health and financial documents before they reach an AI tool."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+keywords = ["pii", "phi", "redaction", "privacy", "hipaa", "anonymization", "llm"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Healthcare Industry",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security",
+    "Topic :: Text Processing :: Filters",
+]
+# No runtime dependencies. The default install performs no network access and
+# downloads no models, which is the entire point of the tool.
+dependencies = []
+
+[project.optional-dependencies]
+crypto = ["cryptography>=44.0.1"]
+# Floors are the first releases without known advisories: these parse untrusted files.
+pdf = ["pypdf>=6.21.4", "pdfplumber>=0.11.10"]
+docx = ["python-docx>=1.1"]
+xlsx = ["openpyxl>=3.1"]
+ner = ["spacy>=3.7"]
+ocr = ["pypdfium2>=4", "Pillow>=13.0.0", "pytesseract>=0.3.10"]
+# Apple's on-device text recognition. It reads photographed cards that
+# Tesseract cannot, and needs nothing installed beyond macOS itself.
+vision = ["pyobjc-framework-Vision>=10; sys_platform == 'darwin'"]
+# iPhone photos are HEIC by default.
+photo = ["Pillow>=13.0.0", "pillow-heif>=0.16"]
+# The saved identifier list's key lives in the OS credential store (macOS Keychain).
+keychain = ["cryptography>=44.0.1", "keyring>=25"]
+all = [
+    "cryptography>=44.0.1", "pypdf>=6.21.4", "pdfplumber>=0.11.10", "python-docx>=1.1",
+    "openpyxl>=3.1", "spacy>=3.7", "pypdfium2>=4", "Pillow>=13.0.0", "pytesseract>=0.3.10",
+    "pyobjc-framework-Vision>=10; sys_platform == 'darwin'", "pillow-heif>=0.16",
+    "keyring>=25",
+]
+dev = ["pytest>=8", "ruff>=0.5", "reportlab>=4"]  # reportlab builds test fixtures
+
+[project.scripts]
+stripii = "stripii.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/nikhilrdeshpande/stripii"
+Issues = "https://github.com/nikhilrdeshpande/stripii/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/stripii"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM", "RUF"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+# The word lists are written as prose blocks on purpose: they are meant to be
+# read and edited by humans, not maintained as a 700-element list literal.
+"src/stripii/detectors/gazetteer.py" = ["SIM905"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+    "slow: rasterises pages and runs OCR; deselect with -m 'not slow'",
+]

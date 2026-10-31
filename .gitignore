@@ -1,0 +1,31 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+# Never commit a vault: it holds the values you were trying not to leak.
+*.vault
+*.vault.*
+vault*.json
+
+# Working files from TESTING.md, should one be made at the root rather than in
+# private/: a scrubbed output is only as safe as the detector's recall, and a
+# list of known identifiers is the very data being protected.
+/scrubbed.*
+/redacted.*
+/testcase.*
+/known.txt
+
+# Real documents used for local testing. These contain actual personal data and
+# must never be committed -- not the inputs, and not the scrubbed outputs either,
+# since a scrubbed file is only as safe as the detector's recall.
+/private/
+
+# macOS Finder metadata
+.DS_Store

@@ -1,0 +1,17 @@
+#!/bin/sh
+# Block a commit that would add credentials or personal data.
+#
+#   cp examples/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+#
+# Swap the profile for `default` to catch personal data as well as secrets.
+
+if ! command -v stripii >/dev/null 2>&1; then
+    echo "pre-commit: stripii not installed, skipping scan" >&2
+    exit 0
+fi
+
+if ! git diff --cached | stripii scan - --profile secrets --quiet >/dev/null 2>&1; then
+    echo "pre-commit: stripii found credentials in the staged diff." >&2
+    echo "Run: git diff --cached | stripii scan - --profile secrets --show-values" >&2
+    exit 1
+fi

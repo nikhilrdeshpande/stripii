@@ -1,0 +1,17 @@
+FIRST MERIDIAN BANK - ACCOUNT STATEMENT
+Statement Period: 07/01/2025 to 07/31/2025
+
+Account Holder: Michael J. Rodriguez
+Address: 4120 Bellevue Ave, Seattle, WA 98105
+Account Number: 483920175
+Routing Number: 021000021
+Card ending: 4111 1111 1111 1111  Exp 11/27  CVV 837
+IBAN: GB82 WEST 1234 5698 7654 32
+Contact: mrodriguez@example.net / (206) 555-0199
+Tax ID (SSN): 412-88-9031
+
+TRANSACTIONS
+07/03/2025  Payroll Deposit - ACME CORP        +4,820.55
+07/08/2025  Mortgage Payment                   -2,150.00
+07/15/2025  Grocery Purchase                     -184.32
+Closing Balance                                 14,209.87

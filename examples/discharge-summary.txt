@@ -1,0 +1,22 @@
+NORTHSIDE MEDICAL CENTER - DISCHARGE SUMMARY
+
+Patient Name: Margaret Ellen Whitfield
+MRN: 4471982
+Date of Birth: 03/14/1934
+Age: 91 years old
+Address: 1847 Oakmont Drive, Apt 3B, Springfield, IL 62704
+Phone: (217) 555-0142
+Email: m.whitfield@example.com
+SSN: 412-88-9031
+Member ID: XHP449182736
+Admission Date: 2025-08-02   Discharge Date: 2025-08-09
+
+Attending: Dr. Robert Chen, MD  (NPI 1234567893)
+Interpreted by Priya Sharma, MD
+
+ASSESSMENT
+Complete Blood Count showed Hemoglobin 10.2 g/dL (low), Hematocrit 31%.
+Comprehensive Metabolic Panel: Glucose 142 mg/dL, Creatinine 1.8 mg/dL.
+Diagnosis: Type 2 Diabetes Mellitus (E11.9), Hypertension (I10).
+Chest X-Ray negative for acute process. Echocardiogram showed EF 45%.
+Plan: continue metformin 1000 mg BID, follow up in Cardiology in 2 weeks.

@@ -1,0 +1,28 @@
+#!/bin/sh
+# Refuse to commit real documents.
+#
+# .gitignore stops accidents; it does not stop `git add -f`, and it does not
+# cover a report saved somewhere other than private/. This does both: nothing
+# under private/ may be committed, and no binary document format may be
+# committed anywhere, because this repository has no legitimate reason to hold
+# one -- fixtures are generated in tests, and examples are synthetic .txt files.
+#
+# Enable once per clone:   git config core.hooksPath .githooks
+
+# Also refused: vaults under any name (they hold the original values), and the
+# working files TESTING.md makes -- scrubbed and redacted outputs, the list of
+# known identifiers -- should one land at the root instead of in private/.
+blocked=$(git diff --cached --name-only --diff-filter=ACMR | grep -iE \
+    -e '^private/' \
+    -e '\.(pdf|docx?|xlsx?|xlsm|png|jpe?g|tiff?|bmp|webp|heic|heif|vault)$' \
+    -e '(^|/)vault[^/]*\.json$' \
+    -e '\.vault(\.[^/]*)?$' \
+    -e '^(scrubbed|redacted|testcase)\.[^/]*$' \
+    -e '^known\.txt$')
+
+if [ -n "$blocked" ]; then
+    echo "pre-commit: refusing to commit what look like real documents:" >&2
+    echo "$blocked" | sed 's/^/    /' >&2
+    echo "Unstage them with: git restore --staged <file>" >&2
+    exit 1
+fi
