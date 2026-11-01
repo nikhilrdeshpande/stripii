@@ -305,3 +305,37 @@ def test_the_cli_reads_a_tsv_with_tabs(tmp_path, capsys):
     out = capsys.readouterr().out
     assert "Margaret Whitfield" not in out and "219-09-9999" not in out
     assert out.count("\t") == 1
+
+
+# --- Prose must not be read as a table ------------------------------------------
+
+from .conftest import requires_pdf_tables, requires_reportlab, write_label_value_pdf  # noqa: E402
+
+
+@requires_pdf_tables
+@requires_reportlab
+def test_label_value_lines_are_read_as_prose_with_every_word_whole(tmp_path):
+    path = tmp_path / "summary.pdf"
+    write_label_value_pdf(path)
+    text = read_text(path)
+    # Whole values, exactly as printed: nothing split at an invented column edge.
+    for value in ("Springfield, IL 62704", "2025-08-02", "2025-08-09", "Hematocrit 31%."):
+        assert value in text
+    assert "| --- |" not in text
+
+
+@requires_pdf_tables
+@requires_reportlab
+def test_cli_text_output_of_a_label_value_pdf_holds_no_identifier(tmp_path, capsys):
+    from stripii.cli import EXIT_OK, main
+
+    path = tmp_path / "summary.pdf"
+    write_label_value_pdf(path)
+    assert main(["scrub", str(path), "-p", "health", "-q"]) == EXIT_OK
+    out = capsys.readouterr().out
+    # Invented values from examples/discharge-summary.txt. Under Safe Harbor the
+    # city goes, the ZIP keeps three digits, and dates keep only the year.
+    for value in ("Whitfield", "4471982", "Oakmont", "Springfield", "62704",
+                  "08-02", "08-09", "555-0142", "412-88-9031", "XHP449182736"):
+        assert value not in out, value
+    assert "Hemoglobin 10.2 g/dL" in out

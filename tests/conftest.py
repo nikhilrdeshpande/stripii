@@ -464,3 +464,28 @@ def write_annotated_pdf(path) -> None:
         NameObject("/F"): NumberObject(4),
     }))
     writer.write(str(path))
+
+
+def write_label_value_pdf(path) -> None:
+    """The invented discharge summary as a plain text-layer PDF: "Label: value"
+    lines, left-aligned, no ruling lines. Alignment-based table detection once
+    read this as a two-column table and cut words at the column boundary
+    ("I | L 62704", "2025 | -08-09"), and the broken values got past detection."""
+    from pathlib import Path
+
+    from reportlab.lib.pagesizes import letter
+    from reportlab.pdfgen import canvas
+
+    text = (Path(__file__).resolve().parents[1] / "examples" / "discharge-summary.txt").read_text()
+    c = canvas.Canvas(str(path), pagesize=letter)
+    y = letter[1] - 60
+    for line in text.splitlines():
+        c.setFont("Helvetica", 10)
+        c.drawString(54, y, line[:110])
+        y -= 14
+    c.save()
+
+
+requires_reportlab = pytest.mark.skipif(
+    not _module_available("reportlab"), reason="needs reportlab to build the PDF"
+)

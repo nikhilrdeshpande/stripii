@@ -172,6 +172,25 @@ def _read_pdf_with_tables(path: Path) -> tuple[str, list[int]] | None:
         filled = sum(1 for c in cells if c is not None and str(c).strip())
         return filled / len(cells) >= 0.6
 
+    def cuts_words(table, words) -> bool:
+        """True if any word crosses one of the table's column edges.
+
+        A real table has whitespace between its columns. When a word straddles an
+        edge, the "table" is prose that happens to line up, and extracting it
+        would split values mid-word ("I | L 62704", "2025 | -08-09"), which hides
+        them from every detector and spills the cut-off ends out as fragments.
+        """
+        bx0, btop, bx1, bbottom = table.bbox
+        edges = {bx0, bx1}
+        for cell in table.cells:
+            edges.update((cell[0], cell[2]))
+        for word in words:
+            if word["bottom"] <= btop or word["top"] >= bbottom:
+                continue
+            if any(word["x0"] + 0.5 < edge < word["x1"] - 0.5 for edge in edges):
+                return True
+        return False
+
     parts: list[str] = []
     image_pages: list[int] = []
     with pdfplumber.open(str(path)) as pdf:
@@ -179,10 +198,16 @@ def _read_pdf_with_tables(path: Path) -> tuple[str, list[int]] | None:
             if page.images and len((page.extract_text() or "").strip()) < IMAGE_PAGE_MAX_CHARS:
                 image_pages.append(number)
                 continue
+            # Ruled tables are trusted as drawn; only tables guessed from text
+            # alignment must also leave every word whole.
             tables = page.find_tables()
             if not tables:
+                words = page.extract_words()
                 candidates = page.find_tables(table_settings=_TEXT_STRATEGY)
-                tables = [t for t in candidates if looks_like_a_grid(t.extract())]
+                tables = [
+                    t for t in candidates
+                    if looks_like_a_grid(t.extract()) and not cuts_words(t, words)
+                ]
             boxes = [t.bbox for t in tables]
             # Prose first, with every word sitting inside a table removed, so
             # the table's contents are not emitted twice.

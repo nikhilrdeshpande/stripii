@@ -27,7 +27,7 @@ from .policy import PROFILES, Policy, get_profile
 from .types import Action, Detection, Replacement, ScrubResult
 from .vault import Vault, VaultError
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 
 __all__ = [
     "PROFILES",

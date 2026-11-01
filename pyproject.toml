@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "stripii"
-version = "0.3.0"
+version = "0.3.1"
 description = "Strip personal data out of health and financial documents before they reach an AI tool."
 readme = "README.md"
 license = { text = "MIT" }

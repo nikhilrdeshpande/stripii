@@ -47,13 +47,13 @@ How the two are built, what they promise and where the limits are:
 Stripii is not on PyPI yet. Install it from GitHub:
 
 ```console
-pip install "stripii @ git+https://github.com/nikhilrdeshpande/stripii@v0.3.0"
+pip install "stripii @ git+https://github.com/nikhilrdeshpande/stripii@v0.3.1"
 # or, as an isolated command:
-pipx install "git+https://github.com/nikhilrdeshpande/stripii@v0.3.0"
+pipx install "git+https://github.com/nikhilrdeshpande/stripii@v0.3.1"
 ```
 
 Optional extras, each adding one capability (for example
-`pip install "stripii[pdf,ocr] @ git+https://github.com/nikhilrdeshpande/stripii@v0.3.0"`):
+`pip install "stripii[pdf,ocr] @ git+https://github.com/nikhilrdeshpande/stripii@v0.3.1"`):
 
 | Extra | Adds |
 |---|---|
