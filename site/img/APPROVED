@@ -1,0 +1,17 @@
+# Images the landing page may ship, approved by the owner on 2026-11-01.
+# The pre-commit hook refuses any image under site/img/ whose staged content is
+# not listed here (git blob id, then path). All are from the release build in
+# demo mode, which opens only the synthetic samples, or are the app icon.
+# Look at an image before adding its line.
+af6062891ae023be455b33c2f42d216d64f35687 site/img/after.webp
+71073393c895de59bbf9efc4b8b3091c385fa3c7 site/img/before.webp
+73e8fa5342415ade1ff61193a77cec74572d1c11 site/img/check.webp
+6beed9d287ac5573be64e0db546e1c1b5cdf5bf1 site/img/drop.webp
+ec82941a3a00310be91cb3e6fc648ae98f0d241b site/img/hero.webp
+a239ee96a48f1ad1da3dc49ad6aef1b9b89b0659 site/img/privacy.webp
+51ad69bd5bb7e78414582c4c5b413bfda5f9ffcc site/img/removed.webp
+1c4f27dade6ebd5384a7acc7489c7e7319a618cd site/img/review.webp
+ac535b6ee8b9b8754d36f746cfcc844359487de5 site/img/save.webp
+04c9e676d51960f46ecee363a3d09c4232da5f2a site/img/icon-180.png
+398ed80e41649bf21f0fa47438cd58179ffe5078 site/img/icon-64.png
+bc0e35c7eec0f0f13fe5be38d668a93983920f1a site/img/og.png

@@ -20,6 +20,24 @@ blocked=$(git diff --cached --name-only --diff-filter=ACMR | grep -iE \
     -e '^(scrubbed|redacted|testcase)\.[^/]*$' \
     -e '^known\.txt$')
 
+# One exception, approved by the owner: the landing page's images in site/img/.
+# Each passes only if its exact staged content is listed in site/img/APPROVED
+# (git blob id, then path), so an edited or new image is refused until someone
+# has looked at it and recorded it.
+if [ -n "$blocked" ]; then
+    still=""
+    for f in $blocked; do
+        case "$f" in
+            site/img/*)
+                id=$(git rev-parse -q --verify ":$f" 2>/dev/null)
+                if [ -n "$id" ] && git show ":site/img/APPROVED" 2>/dev/null | grep -qx "$id $f"; then continue; fi ;;
+        esac
+        still="$still$f
+"
+    done
+    blocked=$(printf '%s' "$still" | sed '/^$/d')
+fi
+
 if [ -n "$blocked" ]; then
     echo "pre-commit: refusing to commit what look like real documents:" >&2
     echo "$blocked" | sed 's/^/    /' >&2

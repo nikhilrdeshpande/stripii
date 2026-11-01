@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'self'; base-uri 'none'; form-action 'none'">
+<title>Stripii for Mac: take the personal details out before you ask an AI</title>
+<meta name="description" content="A free Mac app that blacks out names, dates, addresses and account numbers in PDFs, scans and photos, then reads the result back to check. It cannot connect to the internet.">
+<link rel="canonical" href="https://stripii.nikhilrdeshpande.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://stripii.nikhilrdeshpande.com/">
+<meta property="og:title" content="Stripii for Mac">
+<meta property="og:description" content="Take the personal details out before you ask an AI. Free, offline, open-source engine.">
+<meta property="og:image" content="https://stripii.nikhilrdeshpande.com/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#f6f4ef">
+<link rel="icon" href="img/icon-64.png" type="image/png">
+<link rel="apple-touch-icon" href="img/icon-180.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top"><img src="img/icon-64.png" width="26" height="26" alt=""> Stripii</a>
+    <nav aria-label="Sections">
+      <a href="#how">How it works</a>
+      <a href="#verify">Verify</a>
+      <a href="#receipts">Receipts</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="nav-link" href="https://github.com/nikhilrdeshpande/stripii">GitHub</a>
+      <a class="btn btn-sm btn-ink" href="https://github.com/nikhilrdeshpande/stripii/releases/tag/mac-v0.3.0">Download</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- Hero. The document on the right is the real synthetic sample, set in HTML so the
+     redaction can be shown happening. Values are invented: 555 phone, example.com. -->
+<section class="hero">
+  <div class="wrap hero-in">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="dot"></span>Free for Mac &middot; Works with the internet off</p>
+      <h1>Take the <span class="ink">personal details</span> out before you ask an&nbsp;AI.</h1>
+      <p class="lede">Drop in a lab report, a bank statement or a photo of a prescription. Stripii blacks out who it is about, then reads its own work back to prove nothing is left.</p>
+      <div class="ctas">
+        <a class="btn btn-blue" href="https://github.com/nikhilrdeshpande/stripii/releases/tag/mac-v0.3.0">Download for Mac</a>
+        <a class="btn btn-line" href="https://github.com/nikhilrdeshpande/stripii">View on GitHub</a>
+      </div>
+      <p class="fine">v0.3.0 &middot; macOS 14+ &middot; Apple silicon &middot; 38 MB &middot; <a href="#install">Not notarised by Apple</a></p>
+    </div>
+
+    <figure class="paper-stage" aria-label="A synthetic discharge summary being redacted: each identifier is covered by a black bar, the page is read back, and it is marked ready to share.">
+      <div class="paper" aria-hidden="true">
+        <p class="p-title">NORTHSIDE MEDICAL CENTER &ndash; DISCHARGE SUMMARY</p>
+        <p>Patient Name: <i style="--d:0">Margaret Ellen Whitfield</i></p>
+        <p>MRN: <i style="--d:1">4471982</i></p>
+        <p>Date of Birth: <i style="--d:2">03/14/1934</i></p>
+        <p>Address: <i style="--d:3">1847 Oakmont Drive, Apt 3B, Springfield</i>, IL <i style="--d:4">62704</i></p>
+        <p>Phone: <i style="--d:5">(217) 555-0142</i></p>
+        <p>Email: <i style="--d:6">m.whitfield@example.com</i></p>
+        <p>SSN: <i style="--d:7">412-88-9031</i></p>
+        <p>Member ID: <i style="--d:8">XHP449182736</i></p>
+        <p class="gap">Attending: <i style="--d:9">Dr. Robert Chen</i>, MD (NPI <i style="--d:10">1234567893</i>)</p>
+        <p class="p-head">ASSESSMENT</p>
+        <p>Hemoglobin 10.2 g/dL (low), Hematocrit 31%.</p>
+        <p>Glucose 142 mg/dL, Creatinine 1.8 mg/dL.</p>
+        <p>Type 2 Diabetes Mellitus (E11.9), Hypertension (I10).</p>
+        <p>Plan: continue metformin 1000 mg BID.</p>
+        <span class="scan"></span>
+      </div>
+      <figcaption class="stamp" aria-hidden="true">
+        <span class="stamp-badge">Ready to share</span>
+        <span>16 details removed &middot; read back on this Mac</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- Directly under the button, on purpose. -->
+<section class="install" id="install">
+  <div class="wrap">
+    <div class="install-in">
+      <div class="install-lead">
+        <p class="tag-amber">Before you download</p>
+        <h2>Apple has not checked this app.</h2>
+        <p>I do not have an Apple Developer account, and this is free, so the app is not notarised. macOS will tell you it cannot verify it. That warning is accurate and you should read it.</p>
+      </div>
+      <ol class="steps3">
+        <li><span>1</span><p><b>Open the .dmg</b> and drag Stripii to Applications.</p></li>
+        <li><span>2</span><p><b>Open Stripii once.</b> macOS says it can't be verified. Click Done.</p></li>
+        <li><span>3</span><p><b>System Settings, then Privacy and Security.</b> Scroll down, click Open Anyway next to Stripii, and confirm.</p></li>
+      </ol>
+      <div class="install-code">
+        <div><p class="mini">Or in Terminal</p><pre><code>xattr -dr com.apple.quarantine /Applications/Stripii.app</code></pre></div>
+        <div><p class="mini">Check the download</p><pre><code>shasum -a 256 Stripii-0.3.0.dmg
+<span class="dim">0fbbc4954c1db495b0f3ae6f7f1017f3f27fae66f720e6485d1bafa5ecc49fde</span></code></pre></div>
+      </div>
+      <p class="mini-note">After an update, macOS asks once whether Stripii may use its Keychain item. Choose Always Allow.</p>
+    </div>
+  </div>
+</section>
+
+<!-- The real app, large, on a dark stage. -->
+<section class="stage">
+  <div class="wrap">
+    <p class="stage-kicker">This is the whole app</p>
+    <h2 class="stage-title">One window. One job. No account.</h2>
+    <div class="stage-shot">
+      <img src="img/hero.webp" width="2000" height="1322" alt="Stripii's window. A discharge summary with the patient's identifiers blacked out, and a panel reading Ready to share, 16 details removed, with a list of what kinds were removed.">
+    </div>
+  </div>
+</section>
+
+<!-- The problem, said once. -->
+<section class="pitch">
+  <div class="wrap">
+    <p class="pitch-line">You want an AI to explain your blood test. <span class="muted">It does not need your name, your date of birth, your address and your insurance number to do it.</span></p>
+  </div>
+</section>
+
+<!-- Before and after, one page split down the middle. -->
+<section class="split-sec">
+  <div class="wrap">
+    <div class="split" role="img" aria-label="The same discharge summary, the left half as it went in with every identifier visible, the right half after Stripii with each one covered.">
+      <img class="split-after" src="img/after.webp" width="1000" height="850" alt="">
+      <img class="split-before" src="img/before.webp" width="1000" height="850" alt="">
+      <span class="split-seam"></span>
+      <span class="split-label l">Before</span>
+      <span class="split-label r">After</span>
+    </div>
+    <div class="split-notes">
+      <p><b>16 identifiers gone.</b> Names, dates, record and member numbers, address, phone, email, Social Security number.</p>
+      <p><b>The medicine stays.</b> Lab values, diagnosis codes and the plan are left alone, because that is what you want the AI to read.</p>
+      <p><b>Burned in, not covered.</b> The page is redrawn as a flat image. There is no text underneath to copy out, and no metadata.</p>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="how" id="how">
+  <div class="wrap">
+    <h2 class="h-big">How it works.<br><span class="muted">Step three is the one that matters.</span></h2>
+
+    <div class="how-grid">
+      <article class="card">
+        <div class="card-img"><img src="img/drop.webp" width="1600" height="818" loading="lazy" alt="Drop a document or photo, with a Choose Files button."></div>
+        <p class="num">01</p>
+        <h3>Drop it in</h3>
+        <p>PDFs, scans and photos, including iPhone HEIC. Text comes from the PDF where it has some, and from Apple's on-device Vision where it does not.</p>
+      </article>
+      <article class="card">
+        <div class="card-img"><img src="img/removed.webp" width="1600" height="782" loading="lazy" alt="Ready to share: 16 details removed, listed by kind, beside the redacted page."></div>
+        <p class="num">02</p>
+        <h3>Details come out</h3>
+        <p>Every page is redrawn with black boxes burned into the image. Annotations, form fields and metadata go. Photos lose their EXIF, GPS and XMP data.</p>
+      </article>
+      <article class="card card-wide">
+        <div class="card-img"><img src="img/check.webp" width="1600" height="736" loading="lazy" alt="Check before sharing: 4 details removed. 1 name found on a hunch, with one box on the photo outlined in orange."></div>
+        <div class="card-body">
+          <p class="num">03</p>
+          <h3>It reads its own work back</h3>
+          <p>Stripii runs text recognition over the finished page and checks it again. <b>Ready</b> means nothing legible was left. Anything uncertain is outlined, and anything still readable is held instead of handed over.</p>
+          <p class="aside">In this synthetic photo one name was caught by a guess rather than a rule, so the file is marked for checking.</p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card-img"><img src="img/review.webp" width="1600" height="828" loading="lazy" alt="Check the pages: click an outlined spot to black it out, or drag over anything else."></div>
+        <p class="num">04</p>
+        <h3>Fix what it missed</h3>
+        <p>Click an outlined spot, or drag over anything else. The page is read back again before it is released.</p>
+      </article>
+      <article class="card">
+        <div class="card-img zoom"><img src="img/save.webp" width="1600" height="509" loading="lazy" alt="Ready when you are, with Save PDF and Copy Redacted Text buttons."></div>
+        <p class="num">05</p>
+        <h3>Copy or save</h3>
+        <p>The clipboard copy stays on this Mac. Saved files get a plain name instead of the original, and you are warned before saving into a cloud folder.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Verify -->
+<section class="verify" id="verify">
+  <div class="wrap">
+    <h2 class="h-big on-dark">Don't trust me.<br><span class="muted-dark">Check.</span></h2>
+    <div class="verify-in">
+      <div class="verify-copy">
+        <p>Notarisation would tell you Apple scanned the app. It would not tell you what the app is <em>allowed</em> to do. One command will:</p>
+        <pre class="term"><code><span class="pr">%</span> codesign -d --entitlements - /Applications/Stripii.app
+<span class="dim">[Key] com.apple.security.app-sandbox
+[Value]
+    [Bool] true
+[Key] com.apple.security.files.user-selected.read-write
+[Value]
+    [Bool] true</span></code></pre>
+        <p>That is the whole list: open the files you choose, and nothing else. There is no network entitlement, so macOS refuses every connection the app or its helper tries to make. Tested inside the built app for DNS, TCP, HTTPS and a localhost listener.</p>
+      </div>
+      <figure class="verify-shot">
+        <img src="img/privacy.webp" width="1420" height="950" loading="lazy" alt="Privacy check: everything checks out. Seven passing checks, including no network permission in the app's signature and every connection attempt refused by macOS.">
+        <figcaption>The same test, built in. Help, then Check Stripii's Privacy.</figcaption>
+      </figure>
+    </div>
+    <ul class="facts">
+      <li><b>0</b><span>network permissions</span></li>
+      <li><b>0</b><span>accounts, cookies or analytics</span></li>
+      <li><b>AES-256</b><span>for the names you save, key in your Keychain</span></li>
+      <li><b>7 / 7</b><span>privacy checks on the release build</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- Receipts: the audit and the limits -->
+<section class="receipts" id="receipts">
+  <div class="wrap">
+    <h2 class="h-big">The receipts.<br><span class="muted">Including the ones that don't flatter it.</span></h2>
+
+    <div class="rc-grid">
+      <article class="rc">
+        <p class="rc-num">14</p>
+        <h3>findings in an independent audit. All fixed.</h3>
+        <p>The worst: images inside ordinary text-layer PDFs were not being redacted at all, and the document was still graded ready to share. A scan pasted into a Word file went through untouched while the tool said it was safe.</p>
+        <p>The fix is the read-back. Those pages now go through text recognition and every detector runs again on the output. CI runs <code>pip-audit</code> on every change.</p>
+      </article>
+      <article class="rc">
+        <p class="rc-num">0.927</p>
+        <h3>recall on my synthetic benchmark. Not 1.0.</h3>
+        <p>I am not going to round it up. Names in running prose without a label can slip through, and so can a description that identifies somebody without naming them.</p>
+        <p>Save your own names and numbers once and they are removed from every file after that. That closes most of the gap for your documents, and none of it for anybody else's.</p>
+      </article>
+    </div>
+
+    <figure class="miss">
+      <figcaption><b>A real miss, unedited.</b> The command line tool on a sample note from the repository. Orange got through.</figcaption>
+      <pre><code>Mrs. <mark>[[PERSON_1]]</mark> returned today accompanied by her daughter <mark>[[PERSON_2]]</mark>, who drives
+her in from Brookfield each month. She mentioned that her late husband <mark>[[PERSON_3]]</mark>
+had the same condition. Her granddaughter, who teaches at Brookfield High,
+called our office twice last week from <mark>[[PHONE_1]]</mark>.
+
+We reviewed her results with <s>Kowalczyk</s> from the lab. Fasting glucose 142.
+She lives alone at the <s>Cedarbrook Apartments</s> on <s>Route 9</s> and is worried about
+the co-pay on her Anthem plan, member number <mark>[[HEALTH_PLAN_ID_1]]</mark>.</code></pre>
+    </figure>
+    <p class="hipaa">De-identification is not compliance. The health profile implements the HIPAA Safe Harbor identifier list, which is a method, not a certification.</p>
+  </div>
+</section>
+
+<!-- Developers -->
+<section class="dev">
+  <div class="wrap"><div class="dev-in">
+    <div>
+      <p class="eyebrow-plain">Open source engine</p>
+      <h2>The same engine, in your terminal.</h2>
+      <p>A Python library and command line tool, MIT licensed. PDFs, images, text, CSV and JSON. It can put the original values back into a model's reply, and run as a local proxy. Not on PyPI yet.</p>
+      <a class="btn btn-line" href="https://github.com/nikhilrdeshpande/stripii">View on GitHub</a>
+    </div>
+    <pre class="term term-lg"><code><span class="pr">%</span> pipx install "git+https://github.com/nikhilrdeshpande/stripii@v0.3.0"
+<span class="pr">%</span> stripii scrub sample.pdf -o redacted.pdf --profile health
+<span class="dim">wrote redacted.pdf (1 page(s), read with text layer, redaction drawn on the image)
+grade: ready (16 value(s) read back)
+sample.pdf: 16 replacement(s)</span></code></pre>
+  </div></div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="wrap faq-in">
+    <h2 class="h-mid">Questions</h2>
+    <div class="faq-list">
+      <details>
+        <summary>Why a Mac app and not a website?</summary>
+        <p>A website would need your document on a server, which is the entire thing this is trying to avoid.</p>
+        <p>The next option was a local web interface, and that failed for a reason worth recording: WebKit will not render inside a sandbox with no network access. The offline promise chose the technology.</p>
+      </details>
+      <details>
+        <summary>Why does macOS say it cannot verify the app?</summary>
+        <p>Because it is not notarised. That needs a paid Apple Developer account and this app is free. The warning means Apple has not scanned it, nothing more. The checksum and the <code>codesign</code> command are how you check it instead.</p>
+      </details>
+      <details>
+        <summary>Intel Mac? Windows?</summary>
+        <p>No. There is a build for Apple silicon Macs only.</p>
+      </details>
+      <details>
+        <summary>What does it cost?</summary>
+        <p>Nothing. No account, no sign-up, no paid tier.</p>
+      </details>
+      <details>
+        <summary>Is the app open source?</summary>
+        <p>The engine and the command line tool are, under MIT, and the app runs that same engine. The Mac app's own source is closed for now.</p>
+      </details>
+      <details>
+        <summary>What does this page collect?</summary>
+        <p>Nothing. No cookies, no analytics, no scripts, and nothing loaded from anyone else's server. The web server keeps no access log for it. Requests pass through Cloudflare on the way. The page's source and server configuration are in the repository.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- Close -->
+<section class="close">
+  <div class="wrap close-in">
+    <img src="img/icon-180.png" width="88" height="88" alt="">
+    <h2>Ask the AI.<br>Keep <span class="ink-rev">yourself</span> out of it.</h2>
+    <div class="ctas">
+      <a class="btn btn-blue" href="https://github.com/nikhilrdeshpande/stripii/releases/tag/mac-v0.3.0">Download for Mac</a>
+      <a class="btn btn-line-dark" href="https://github.com/nikhilrdeshpande/stripii">View on GitHub</a>
+    </div>
+    <p class="fine on-dark">Free &middot; macOS 14+ &middot; Apple silicon &middot; Not notarised</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <p class="foot-brand"><img src="img/icon-64.png" width="20" height="20" alt=""> Stripii</p>
+    <p>Stripii collects nothing. The app cannot connect to the internet.</p>
+    <p><a href="https://github.com/nikhilrdeshpande/stripii">GitHub</a> &middot; <a href="https://github.com/nikhilrdeshpande/stripii/blob/main/docs/architecture.md">Architecture</a> &middot; <a href="https://github.com/nikhilrdeshpande/stripii/security">Report a security problem</a> &middot; Made by <a href="https://nikhilrdeshpande.com/">Nikhil Deshpande</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
