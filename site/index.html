@@ -125,13 +125,17 @@
 <!-- Before and after, one page split down the middle. -->
 <section class="split-sec">
   <div class="wrap">
-    <div class="split" role="img" aria-label="The same discharge summary, the left half as it went in with every identifier visible, the right half after Stripii with each one covered.">
+    <div class="split" role="img" aria-label="The same discharge summary. On the left of a movable line it is shown as it went in, with every identifier visible; on the right, after Stripii, with each one covered.">
       <img class="split-after" src="img/after.webp" width="1000" height="850" alt="">
-      <img class="split-before" src="img/before.webp" width="1000" height="850" alt="">
-      <span class="split-seam"></span>
+      <!-- The browser's own resize handle is the drag control, so this works with no script.
+           It is stretched to the full height and kept invisible; the seam below follows it. -->
+      <div class="split-drag" aria-hidden="true"></div>
+      <div class="split-before"><img src="img/before.webp" width="1000" height="850" alt=""></div>
+      <div class="split-seam" aria-hidden="true"><span></span></div>
       <span class="split-label l">Before</span>
       <span class="split-label r">After</span>
     </div>
+    <p class="split-hint">Drag the line</p>
     <div class="split-notes">
       <p><b>16 identifiers gone.</b> Names, dates, record and member numbers, address, phone, email, Social Security number.</p>
       <p><b>The medicine stays.</b> Lab values, diagnosis codes and the plan are left alone, because that is what you want the AI to read.</p>
@@ -293,7 +297,7 @@ sample.pdf: 16 replacement(s)</span></code></pre>
       </details>
       <details>
         <summary>What does this page collect?</summary>
-        <p>Nothing. No cookies, no analytics, no scripts, and nothing loaded from anyone else's server. The web server keeps no access log for it. Requests pass through Cloudflare on the way. The page's source and server configuration are in the repository.</p>
+        <p>Nothing. No cookies, no analytics, no scripts, and nothing loaded from anyone else's server. It is hosted on GitHub Pages, so GitHub receives each request the way any web host would. The page's source is in the repository.</p>
       </details>
     </div>
   </div>

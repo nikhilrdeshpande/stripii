@@ -131,15 +131,28 @@ h1{font-size:clamp(2.8rem,5vw,4.75rem);line-height:.98;letter-spacing:-.045em;fo
 
 /* ---------- Before / after split ---------- */
 .split-sec{padding:0 0 8rem}
-.split{position:relative;max-width:58rem;margin:0 auto;aspect-ratio:1000/850;border-radius:6px;overflow:hidden;background:#fff;
-  box-shadow:0 1px 1px rgba(12,13,16,.04),0 30px 60px -20px rgba(12,13,16,.25)}
-.split img{position:absolute;inset:0;width:100%;height:100%}
-.split-before{clip-path:inset(0 64% 0 0)}
-.split-seam{position:absolute;top:0;bottom:0;left:36%;width:2px;margin-left:-1px;background:var(--blue)}
-.split-seam::after{content:"";position:absolute;top:50%;left:50%;width:2.4rem;height:2.4rem;transform:translate(-50%,-50%);border-radius:50%;background:var(--blue);box-shadow:0 0 0 6px rgba(11,108,245,.18)}
-.split-label{position:absolute;top:1rem;font:700 .75rem/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;padding:.45rem .65rem;border-radius:6px}
+/* Grid of two columns: the first is sized by .split-drag alone, whose width the
+   reader changes with the browser's resize handle. Before-image and seam fill that
+   column without affecting it (width:0; min-width:100%). No script involved. */
+.split{position:relative;max-width:58rem;margin:0 auto;display:grid;grid-template-columns:auto 1fr;container-type:inline-size;
+  border-radius:6px;overflow:hidden;background:#fff;box-shadow:0 1px 1px rgba(12,13,16,.04),0 30px 60px -20px rgba(12,13,16,.25)}
+.split-after{grid-area:1/1/2/3;width:100%;height:auto}
+.split-drag{grid-area:1/1;align-self:end;z-index:3;width:36cqw;min-width:6cqw;max-width:100cqw;height:20px;
+  resize:horizontal;overflow:hidden;opacity:0;cursor:ew-resize;transform-origin:bottom;transform:scaleY(80)}
+.split-drag::-webkit-resizer{width:40px;height:20px}
+.split-before{grid-area:1/1;z-index:1;width:0;min-width:100%;overflow:hidden;pointer-events:none}
+.split-before img{width:100cqw;max-width:none;height:auto}
+.split-seam{grid-area:1/1;z-index:2;width:0;min-width:100%;position:relative;pointer-events:none}
+.split-seam::before{content:"";position:absolute;top:0;bottom:0;right:-1px;width:2px;background:var(--blue)}
+.split-seam span{position:absolute;right:0;top:50%;width:2.6rem;height:2.6rem;transform:translate(50%,-50%);border-radius:50%;background:var(--blue);
+  box-shadow:0 0 0 6px rgba(11,108,245,.18),0 6px 16px rgba(11,108,245,.4)}
+.split-seam span::before,.split-seam span::after{content:"";position:absolute;top:50%;width:0;height:0;border:.36rem solid transparent;margin-top:-.36rem}
+.split-seam span::before{left:.35rem;border-right-color:#fff}
+.split-seam span::after{right:.35rem;border-left-color:#fff}
+.split-label{position:absolute;z-index:2;top:1rem;font:700 .75rem/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;padding:.45rem .65rem;border-radius:6px;pointer-events:none}
 .split-label.l{left:1rem;background:var(--paper-2);color:var(--ink-2)}
 .split-label.r{right:1rem;background:var(--ink);color:#fff}
+.split-hint{text-align:center;font-size:.8125rem;font-weight:600;color:var(--muted);margin:1rem 0 0}
 .split-notes{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem;max-width:58rem;margin:3rem auto 0}
 .split-notes p{font-size:.9688rem;color:var(--ink-2);margin:0}
 .split-notes b{display:block;color:var(--ink);font-size:1.0625rem;margin-bottom:.3rem}

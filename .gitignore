@@ -30,5 +30,3 @@ vault*.json
 # macOS Finder metadata
 .DS_Store
 
-# Landing page deploy target (user@host); never committed.
-deploy/.env.deploy
