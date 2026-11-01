@@ -21,6 +21,7 @@ from .conftest import (
     ocr_backends,
     requires_any_ocr,
     requires_pdf_tables,
+    requires_pdfium_and_reportlab,
 )
 
 # --------------------------------------------------------------------------
@@ -372,6 +373,7 @@ def test_one_oversized_page_lowers_the_resolution_instead_of_refusing(tmp_path, 
     assert width * height <= 2_000_000
 
 
+@requires_pdfium_and_reportlab
 def test_a_page_too_large_even_at_the_lowest_resolution_is_still_refused(tmp_path, monkeypatch):
     from reportlab.pdfgen import canvas
 

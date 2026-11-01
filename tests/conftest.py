@@ -489,3 +489,8 @@ def write_label_value_pdf(path) -> None:
 requires_reportlab = pytest.mark.skipif(
     not _module_available("reportlab"), reason="needs reportlab to build the PDF"
 )
+
+requires_pdfium_and_reportlab = pytest.mark.skipif(
+    not (_module_available("pypdfium2") and _module_available("reportlab")),
+    reason="needs pypdfium2 (stripii[ocr]) to render, and reportlab to build the PDF",
+)
