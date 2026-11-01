@@ -47,6 +47,7 @@ p code,details code,.rc code{background:var(--paper-2);border-radius:5px;padding
 .btn-sm{padding:.6rem 1rem;font-size:.875rem}
 .fine{font-size:.8125rem;color:var(--muted);margin:1.1rem 0 0}
 .fine a{color:var(--amber);font-weight:600;text-underline-offset:.2em}
+.fine a.plain{color:var(--muted);font-weight:400}
 .fine.on-dark{color:#7d828b}
 
 /* ---------- Nav ---------- */
