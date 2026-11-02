@@ -4,10 +4,10 @@
 
 :root{
   --paper:#f6f4ef; --paper-2:#efece4; --white:#fff;
-  --ink:#0c0d10; --ink-2:#3f434a; --muted:#80838a; --line:#e3dfd5;
+  --ink:#0c0d10; --ink-2:#3f434a; --muted:#676a71; --line:#e3dfd5;
   --blue:#0b6cf5; --blue-2:#0857c7;
   --green:#1a9a4b; --green-bg:#e3f4e9;
-  --amber:#c2600c; --amber-bg:#fbf0e2; --amber-line:#efd7b8;
+  --amber:#a8520a; --amber-bg:#fbf0e2; --amber-line:#efd7b8;
   --night:#0c0d10; --night-2:#15171b; --night-3:#1d2026; --night-line:#2a2d34; --night-ink:#a9aeb7;
   --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
@@ -28,6 +28,9 @@ code{font-family:var(--mono);font-size:.86em}
 p code,details code,.rc code{background:var(--paper-2);border-radius:5px;padding:.08em .38em}
 .wrap{max-width:var(--wrap);margin:0 auto;padding:0 2rem}
 .muted{color:var(--muted)}
+.sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skip{position:absolute;left:1rem;top:-4rem;z-index:50;background:var(--ink);color:#fff;font-weight:600;padding:.7rem 1rem;border-radius:10px;text-decoration:none}
+.skip:focus{top:1rem}
 
 /* Redaction as type: white on a square black bar. */
 .ink{background:var(--ink);color:var(--paper);padding:0 .12em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
@@ -45,6 +48,7 @@ p code,details code,.rc code{background:var(--paper-2);border-radius:5px;padding
 .btn-line-dark:hover{box-shadow:inset 0 0 0 1.5px #fff}
 .btn-ink{background:var(--ink);color:#fff}
 .btn-sm{padding:.6rem 1rem;font-size:.875rem}
+.review-note{font-size:.9375rem;color:var(--ink-2);margin:1.1rem 0 0;padding-left:.8rem;border-left:2px solid var(--amber)}
 .fine{font-size:.8125rem;color:var(--muted);margin:1.1rem 0 0}
 .fine a{color:var(--amber);font-weight:600;text-underline-offset:.2em}
 .fine a.plain{color:var(--muted);font-weight:400}
@@ -112,10 +116,18 @@ h1{font-size:clamp(2.8rem,5vw,4.75rem);line-height:.98;letter-spacing:-.045em;fo
 .steps3 b{color:var(--ink)}
 .install-code{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 .install-code > div,.verify-in > *,.dev-in > *,.hero-in > *{min-width:0}
-.mini{font-size:.75rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#9a8b78;margin-bottom:.45rem}
-.install-code pre{margin:0;background:var(--white);border-radius:14px;padding:.9rem 1.1rem;overflow-x:auto;font-size:.8125rem;line-height:1.65}
+.mini{font-size:.75rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#7a5f3e;margin:0 0 .45rem}
+.install-code pre + .mini{margin-top:1rem}
+.install-code pre{margin:0;background:var(--white);border-radius:14px;padding:.9rem 1.1rem;font-size:.8125rem;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere}
+.install-code pre.expect{background:transparent;box-shadow:inset 0 0 0 1.5px var(--amber-line);color:var(--ink-2)}
+.install-code code{background:none;padding:0;font-size:1em}
+.code-note{font-size:.875rem;color:#7a5f3e;margin:.7rem 0 0}
+.install-more{margin-top:.25rem}
+.install-more summary{cursor:pointer;display:list-item;font-weight:650;color:var(--ink);padding:.4rem 0}
+.install-more summary::marker{color:var(--amber)}
+.install-more[open] summary{margin-bottom:1rem}
 .dim{color:var(--muted)}
-.mini-note{font-size:.875rem;color:#8a7b68;margin:1.1rem 0 0}
+.mini-note{font-size:.875rem;color:#7a5f3e;margin:1.1rem 0 0;max-width:52rem}
 
 /* ---------- Stage: the real app ---------- */
 .stage{background:var(--night);color:#fff;padding:7rem 0 0;overflow:hidden;position:relative}
@@ -153,6 +165,17 @@ h1{font-size:clamp(2.8rem,5vw,4.75rem);line-height:.98;letter-spacing:-.045em;fo
 .split-label{position:absolute;z-index:2;top:1rem;font:700 .75rem/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;padding:.45rem .65rem;border-radius:6px;pointer-events:none}
 .split-label.l{left:1rem;background:var(--paper-2);color:var(--ink-2)}
 .split-label.r{right:1rem;background:var(--ink);color:#fff}
+/* Before / Compare / After: real radio buttons, so the view can be chosen by keyboard,
+   touch or a screen reader, and works where the resize handle does not. */
+.split-view{display:flex;justify-content:center;gap:.25rem;margin:0 auto 1.25rem;padding:.3rem;border:0;width:max-content;background:var(--paper-2);border-radius:999px}
+.split-view label{font:600 .875rem/1 var(--sans);color:var(--ink-2);padding:.6rem 1.1rem;border-radius:999px;cursor:pointer}
+.split-view input:checked + label{background:var(--white);color:var(--ink);box-shadow:0 1px 3px rgba(12,13,16,.15)}
+.split-view input:focus-visible + label{outline:3px solid var(--blue);outline-offset:2px}
+.split-sec:has(#v-before:checked) .split-drag{width:100cqw!important;pointer-events:none}
+.split-sec:has(#v-after:checked) .split-drag{width:0!important;min-width:0;pointer-events:none}
+.split-sec:has(#v-before:checked) .split-seam,.split-sec:has(#v-after:checked) .split-seam{visibility:hidden}
+.split-sec:has(#v-before:checked) .split-label.r,.split-sec:has(#v-after:checked) .split-label.l{visibility:hidden}
+.split-sec:has(#v-before:checked) .split-hint,.split-sec:has(#v-after:checked) .split-hint{visibility:hidden}
 .split-hint{text-align:center;font-size:.8125rem;font-weight:600;color:var(--muted);margin:1rem 0 0}
 .split-notes{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem;max-width:58rem;margin:3rem auto 0}
 .split-notes p{font-size:.9688rem;color:var(--ink-2);margin:0}
@@ -177,6 +200,10 @@ h1{font-size:clamp(2.8rem,5vw,4.75rem);line-height:.98;letter-spacing:-.045em;fo
 .card-wide h3{margin-left:0;font-size:2rem;color:#fff}
 .card-body p{color:var(--night-ink)}
 .card-body b{color:#fff}
+.card-note{grid-column:1/-1;padding:2rem 2.25rem;background:var(--paper-2);box-shadow:inset 0 0 0 1px var(--line)}
+.card-note .num,.card-note h3,.card-note > p:not(.num){margin-left:0!important;margin-right:0!important;max-width:48rem}
+.card-note > p + p{margin-top:.6rem!important}
+.on-dark-link{color:#9cc2ff;font-weight:600;text-underline-offset:.2em}
 .card-body .aside{font-size:.9375rem;border-left:2px solid var(--amber);padding-left:.9rem;color:#8d929b}
 
 /* ---------- Verify ---------- */
@@ -203,6 +230,7 @@ h1{font-size:clamp(2.8rem,5vw,4.75rem);line-height:.98;letter-spacing:-.045em;fo
 .rc-num{font:800 clamp(4.5rem,8vw,7rem)/.85 var(--display);letter-spacing:-.06em;margin:0 0 1.25rem}
 .rc h3{font-size:1.375rem;letter-spacing:-.02em;font-weight:700;margin-bottom:1rem}
 .rc p:not(.rc-num){color:var(--ink-2)}
+.rc a{color:var(--blue-2);font-weight:600;text-underline-offset:.2em}
 .miss{margin:0;background:var(--white);border-radius:28px;padding:2rem 2.5rem 2.25rem;box-shadow:0 0 0 1px rgba(12,13,16,.05)}
 .miss figcaption{font-size:.9375rem;color:var(--ink-2);margin-bottom:1.1rem}
 .miss figcaption b{color:var(--ink)}
@@ -224,14 +252,14 @@ h1{font-size:clamp(2.8rem,5vw,4.75rem);line-height:.98;letter-spacing:-.045em;fo
 /* ---------- FAQ ---------- */
 .faq{padding:0 0 8rem}
 .faq-in{display:grid;grid-template-columns:minmax(0,20rem) minmax(0,1fr);gap:4rem}
-details{border-bottom:1px solid var(--line)}
-details:first-child{border-top:1px solid var(--line)}
-summary{cursor:pointer;list-style:none;font:650 1.1875rem/1.35 var(--display);letter-spacing:-.015em;padding:1.4rem 3rem 1.4rem 0;position:relative}
-summary::-webkit-details-marker{display:none}
-summary::after{content:"";position:absolute;right:.4rem;top:50%;width:.7rem;height:.7rem;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:translateY(-70%) rotate(45deg);transition:transform .2s var(--ease)}
-details[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
-details p{color:var(--ink-2);max-width:42rem}
-details p:last-child{padding-bottom:1.25rem}
+.faq-list details{border-bottom:1px solid var(--line)}
+.faq-list details:first-child{border-top:1px solid var(--line)}
+.faq-list summary{cursor:pointer;list-style:none;font:650 1.1875rem/1.35 var(--display);letter-spacing:-.015em;padding:1.4rem 3rem 1.4rem 0;position:relative}
+.faq-list summary::-webkit-details-marker{display:none}
+.faq-list summary::after{content:"";position:absolute;right:.4rem;top:50%;width:.7rem;height:.7rem;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:translateY(-70%) rotate(45deg);transition:transform .2s var(--ease)}
+.faq-list details[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
+.faq-list details p{color:var(--ink-2);max-width:42rem}
+.faq-list details p:last-child{padding-bottom:1.25rem}
 
 /* ---------- Close ---------- */
 .close{background:var(--night);color:#fff;padding:8rem 0;text-align:center;overflow:hidden;position:relative}
@@ -261,7 +289,13 @@ details p:last-child{padding-bottom:1.25rem}
 }
 @media (max-width:760px){
   .wrap{padding:0 1.15rem}
-  .nav nav,.nav-link{display:none}
+  .nav-link{display:none}
+  .nav-in{height:auto;flex-wrap:wrap;gap:0;padding-top:.6rem;padding-bottom:.5rem}
+  .nav nav{order:3;width:100%;gap:1.25rem;overflow-x:auto;padding:.55rem 0 .1rem;scrollbar-width:none}
+  .nav nav a{white-space:nowrap}
+  html{scroll-padding-top:7rem}
+  .term{white-space:pre-wrap;overflow-wrap:anywhere}
+  .card-note{padding:1.5rem 1.4rem}
   .hero{padding:3.5rem 0 4.5rem}
   .paper{padding:1.6rem 1.4rem 1.8rem;font-size:.75rem;transform:none}
   .paper i{white-space:normal}

@@ -20,6 +20,8 @@
 </head>
 <body>
 
+<a class="skip" href="#top">Skip to content</a>
+
 <header class="nav">
   <div class="wrap nav-in">
     <a class="brand" href="#top"><img src="img/icon-64.png" width="26" height="26" alt=""> Stripii</a>
@@ -45,12 +47,13 @@
     <div class="hero-copy">
       <p class="eyebrow"><span class="dot"></span>Free for Mac &middot; Works with the internet off</p>
       <h1>Take the <span class="ink">personal details</span> out before you ask an&nbsp;AI.</h1>
-      <p class="lede">Drop in a lab report, a bank statement or a photo of a prescription. Stripii blacks out who it is about, then reads its own work back to prove nothing is left.</p>
+      <p class="lede">Drop in a lab report, a bank statement or a photo of a prescription. Stripii blacks out names, addresses and other identifying details, then reads the result back to check for anything it still detects.</p>
       <div class="ctas">
         <a class="btn btn-blue" href="https://github.com/nikhilrdeshpande/stripii/releases/download/mac-v0.3.0/Stripii-0.3.0.dmg">Download for Mac</a>
         <a class="btn btn-line" href="https://github.com/nikhilrdeshpande/stripii">View on GitHub</a>
       </div>
-      <p class="fine"><a class="plain" href="https://github.com/nikhilrdeshpande/stripii/releases/tag/mac-v0.3.0">v0.3.0 release notes</a> &middot; macOS 14+ &middot; Apple silicon &middot; 38 MB &middot; <a href="#install">Not notarised by Apple</a></p>
+      <p class="review-note">It catches most identifiers, not all of them. Read the output before you share it.</p>
+      <p class="fine">Mac app v0.3.0 &middot; <a class="plain" href="https://github.com/nikhilrdeshpande/stripii/releases/tag/mac-v0.3.0">Release notes</a> &middot; macOS 14+ &middot; Apple silicon &middot; 38 MB &middot; <a href="#install">Not notarised by Apple</a></p>
     </div>
 
     <figure class="paper-stage" aria-label="A synthetic discharge summary being redacted: each identifier is covered by a black bar, the page is read back, and it is marked ready to share.">
@@ -87,19 +90,32 @@
       <div class="install-lead">
         <p class="tag-amber">Before you download</p>
         <h2>Apple has not checked this app.</h2>
-        <p>I do not have an Apple Developer account, and this is free, so the app is not notarised. macOS will tell you it cannot verify it. That warning is accurate and you should read it.</p>
+        <p>Stripii is not notarised, and it is ad-hoc signed rather than signed with an Apple Developer ID. Apple has not scanned it, and macOS cannot tell you who built it. macOS will say it cannot verify the app. That warning is accurate. Opening it anyway means trusting this download and me.</p>
       </div>
       <ol class="steps3">
         <li><span>1</span><p><b>Open the .dmg</b> and drag Stripii to Applications.</p></li>
         <li><span>2</span><p><b>Open Stripii once.</b> macOS says it can't be verified. Click Done.</p></li>
-        <li><span>3</span><p><b>System Settings, then Privacy and Security.</b> Scroll down, click Open Anyway next to Stripii, and confirm.</p></li>
+        <li><span>3</span><p><b>System Settings &rarr; Privacy &amp; Security.</b> Scroll down, click Open Anyway next to Stripii, and confirm.</p></li>
       </ol>
-      <div class="install-code">
-        <div><p class="mini">Or in Terminal</p><pre><code>xattr -dr com.apple.quarantine /Applications/Stripii.app</code></pre></div>
-        <div><p class="mini">Check the download</p><pre><code>shasum -a 256 Stripii-0.3.0.dmg
-<span class="dim">0fbbc4954c1db495b0f3ae6f7f1017f3f27fae66f720e6485d1bafa5ecc49fde</span></code></pre></div>
-      </div>
-      <p class="mini-note">After an update, macOS asks once whether Stripii may use its Keychain item. Choose Always Allow.</p>
+      <details class="install-more">
+        <summary>Check the download before you open it</summary>
+        <div class="install-code">
+          <div>
+            <p class="mini">1. In Terminal, in the folder you downloaded to, run</p>
+            <pre><code>cd ~/Downloads
+shasum -a 256 Stripii-0.3.0.dmg</code></pre>
+            <p class="mini">2. It should print exactly this</p>
+            <pre class="expect"><code>0fbbc4954c1db495b0f3ae6f7f1017f3f27fae66f720e6485d1bafa5ecc49fde  Stripii-0.3.0.dmg</code></pre>
+            <p class="code-note">This shows your file is the one published on the release page. It does not show that the software is safe.</p>
+          </div>
+          <div>
+            <p class="mini">Instead of step 3, in Terminal</p>
+            <pre><code>xattr -dr com.apple.quarantine /Applications/Stripii.app</code></pre>
+            <p class="code-note">This removes the download flag, so macOS stops asking. Only do it after the checksum matches.</p>
+          </div>
+        </div>
+      </details>
+      <p class="mini-note">You may see one more prompt: macOS asking whether Stripii may use the &ldquo;Stripii saved details key&rdquo; in your Keychain. That key unlocks the names and numbers you save. Because the app is ad-hoc signed, each new version looks new to macOS, so it asks again after an update. Click Always Allow to stop it asking for this version.</p>
     </div>
   </div>
 </section>
@@ -125,7 +141,16 @@
 <!-- Before and after, one page split down the middle. -->
 <section class="split-sec">
   <div class="wrap">
-    <div class="split" role="img" aria-label="The same discharge summary. On the left of a movable line it is shown as it went in, with every identifier visible; on the right, after Stripii, with each one covered.">
+    <fieldset class="split-view">
+      <legend class="sr">Show the page</legend>
+      <input type="radio" name="view" id="v-before" class="sr">
+      <label for="v-before">Before</label>
+      <input type="radio" name="view" id="v-both" class="sr" checked>
+      <label for="v-both">Compare</label>
+      <input type="radio" name="view" id="v-after" class="sr">
+      <label for="v-after">After</label>
+    </fieldset>
+    <div class="split" role="img" aria-label="The same discharge summary. On the left of the line, as it went in, with every identifier visible. On the right, after Stripii, with each one covered.">
       <img class="split-after" src="img/after.webp" width="1000" height="850" alt="">
       <!-- The browser's own resize handle is the drag control, so this works with no script.
            It is stretched to the full height and kept invisible; the seam below follows it. -->
@@ -135,11 +160,11 @@
       <span class="split-label l">Before</span>
       <span class="split-label r">After</span>
     </div>
-    <p class="split-hint">Drag the line</p>
+    <p class="split-hint">Drag the line, or choose Before or After</p>
     <div class="split-notes">
       <p><b>16 identifiers gone.</b> Names, dates, record and member numbers, address, phone, email, Social Security number.</p>
       <p><b>The medicine stays.</b> Lab values, diagnosis codes and the plan are left alone, because that is what you want the AI to read.</p>
-      <p><b>Burned in, not covered.</b> The page is redrawn as a flat image. There is no text underneath to copy out, and no metadata.</p>
+      <p><b>Burned in, not covered.</b> The page is redrawn as a flat image. There is no text underneath to copy out, and no hidden file details.</p>
     </div>
   </div>
 </section>
@@ -160,15 +185,16 @@
         <div class="card-img"><img src="img/removed.webp" width="1600" height="782" loading="lazy" alt="Ready to share: 16 details removed, listed by kind, beside the redacted page."></div>
         <p class="num">02</p>
         <h3>Details come out</h3>
-        <p>Every page is redrawn with black boxes burned into the image. Annotations, form fields and metadata go. Photos lose their EXIF, GPS and XMP data.</p>
+        <p>Every page is redrawn with black boxes burned into the image. Annotations, form fields and embedded metadata go, including the location stored in photos.</p>
       </article>
       <article class="card card-wide">
-        <div class="card-img"><img src="img/check.webp" width="1600" height="736" loading="lazy" alt="Check before sharing: 4 details removed. 1 name found on a hunch, with one box on the photo outlined in orange."></div>
+        <div class="card-img"><img src="img/check.webp" width="1600" height="736" loading="lazy" alt="Check before sharing: 4 details removed. 1 possible name flagged for review, with one box on the photo outlined in orange."></div>
         <div class="card-body">
           <p class="num">03</p>
           <h3>It reads its own work back</h3>
-          <p>Stripii runs text recognition over the finished page and checks it again. <b>Ready</b> means nothing legible was left. Anything uncertain is outlined, and anything still readable is held instead of handed over.</p>
-          <p class="aside">In this synthetic photo one name was caught by a guess rather than a rule, so the file is marked for checking.</p>
+          <p>Stripii runs text recognition over the finished page and runs every detector again. <b>Ready</b> means the read-back check found no remaining identifiers it recognises. Matches found with lower confidence are outlined for review. If a detected value can still be read, the result is held instead of handed over.</p>
+          <p>It cannot flag what it does not recognise, such as a surname in a sentence with no label. <a class="on-dark-link" href="https://github.com/nikhilrdeshpande/stripii/blob/main/docs/architecture.md#limits">The known limits</a></p>
+          <p class="aside">In this synthetic photo one name was detected with lower confidence, so the file is marked for checking.</p>
         </div>
       </article>
       <article class="card">
@@ -181,7 +207,13 @@
         <div class="card-img zoom"><img src="img/save.webp" width="1600" height="509" loading="lazy" alt="Ready when you are, with Save PDF and Copy Redacted Text buttons."></div>
         <p class="num">05</p>
         <h3>Copy or save</h3>
-        <p>The clipboard copy stays on this Mac. Saved files get a plain name instead of the original, and you are warned before saving into a cloud folder.</p>
+        <p>Save a redacted PDF or copy the redacted text. The PDF is a flat image, so it has no searchable text. The copied text stays on this Mac, saved files get a plain name, and you are warned before saving into a cloud folder.</p>
+      </article>
+      <article class="card card-note">
+        <p class="num">Tip</p>
+        <h3>Tell it your own names once</h3>
+        <p>Open <b>Always Removed</b> in the sidebar, or Stripii &rarr; Settings, and add your name, your family&rsquo;s names and your account numbers. Stripii looks for them in every document after that. This is the best way to reduce misses in your own documents.</p>
+        <p>The list is encrypted on this Mac, and the key is kept in your Keychain.</p>
       </article>
     </div>
   </div>
@@ -193,7 +225,7 @@
     <h2 class="h-big on-dark">Don't trust me.<br><span class="muted-dark">Check.</span></h2>
     <div class="verify-in">
       <div class="verify-copy">
-        <p>Notarisation would tell you Apple scanned the app. It would not tell you what the app is <em>allowed</em> to do. One command will:</p>
+        <p>You can check what macOS will <em>allow</em> the app to do. Run this after installing:</p>
         <pre class="term"><code><span class="pr">%</span> codesign -d --entitlements - /Applications/Stripii.app
 <span class="dim">[Key] com.apple.security.app-sandbox
 [Value]
@@ -201,7 +233,8 @@
 [Key] com.apple.security.files.user-selected.read-write
 [Value]
     [Bool] true</span></code></pre>
-        <p>That is the whole list: open the files you choose, and nothing else. There is no network entitlement, so macOS refuses every connection the app or its helper tries to make. Tested inside the built app for DNS, TCP, HTTPS and a localhost listener.</p>
+        <p>These two entitlements turn on the App Sandbox and give access to the files you select. Neither is a network entitlement, so macOS refuses every connection the app or its helper tries to make. That was tested inside the built app for DNS, TCP, HTTPS and a localhost listener.</p>
+        <p>This shows the permissions the app declares. Like the checksum, it is a narrow check, and it does not prove the software is safe.</p>
       </div>
       <figure class="verify-shot">
         <img src="img/privacy.webp" width="1420" height="950" loading="lazy" alt="Privacy check: everything checks out. Seven passing checks, including no network permission in the app's signature and every connection attempt refused by macOS.">
@@ -225,15 +258,16 @@
     <div class="rc-grid">
       <article class="rc">
         <p class="rc-num">14</p>
-        <h3>findings in an independent audit. All fixed.</h3>
+        <h3>findings in a security review of the engine before release. All fixed.</h3>
         <p>The worst: images inside ordinary text-layer PDFs were not being redacted at all, and the document was still graded ready to share. A scan pasted into a Word file went through untouched while the tool said it was safe.</p>
-        <p>The fix is the read-back. Those pages now go through text recognition and every detector runs again on the output. CI runs <code>pip-audit</code> on every change.</p>
+        <p>The fix is the read-back. Those pages now go through text recognition and every detector runs again on the output. CI runs <code>pip-audit</code> on every change. <a href="https://github.com/nikhilrdeshpande/stripii/blob/main/docs/architecture.md#security">What the review fixed</a></p>
       </article>
       <article class="rc">
-        <p class="rc-num">0.927</p>
-        <h3>recall on my synthetic benchmark. Not 1.0.</h3>
-        <p>I am not going to round it up. Names in running prose without a label can slip through, and so can a description that identifies somebody without naming them.</p>
-        <p>Save your own names and numbers once and they are removed from every file after that. That closes most of the gap for your documents, and none of it for anybody else's.</p>
+        <p class="rc-num">92.7%</p>
+        <h3>of 688 labelled identifiers found, in an 84-document synthetic test set. Not 100%.</h3>
+        <p>The documents were written to test it, so real documents may score differently. <a href="https://github.com/nikhilrdeshpande/stripii/blob/main/benchmarks/README.md">The benchmark and its caveats</a></p>
+        <p> Names in running prose without a label can slip through, and so can a description that identifies somebody without naming them.</p>
+        <p>Save names and numbers to help Stripii recognise them in future documents. That can reduce misses in your own documents. It does nothing for names it has never been told.</p>
       </article>
     </div>
 
@@ -256,9 +290,9 @@ the co-pay on her Anthem plan, member number <mark>[[HEALTH_PLAN_ID_1]]</mark>.<
 <section class="dev">
   <div class="wrap"><div class="dev-in">
     <div>
-      <p class="eyebrow-plain">Open source engine</p>
+      <p class="eyebrow-plain">Python engine and CLI &middot; v0.3.1</p>
       <h2>The same engine, in your terminal.</h2>
-      <p>A Python library and command line tool, MIT licensed. PDFs, images, text, CSV and JSON. It can put the original values back into a model's reply, and run as a local proxy. Not on PyPI yet.</p>
+      <p>A Python library and command line tool, MIT licensed. PDFs, images, text, CSV and JSON. It can put the original values back into a model's reply, and run as a local proxy. Install from GitHub.</p>
       <a class="btn btn-line" href="https://github.com/nikhilrdeshpande/stripii">View on GitHub</a>
     </div>
     <pre class="term term-lg"><code><span class="pr">%</span> pipx install "git+https://github.com/nikhilrdeshpande/stripii@v0.3.1"
@@ -276,12 +310,13 @@ sample.pdf: 16 replacement(s)</span></code></pre>
     <div class="faq-list">
       <details>
         <summary>Why a Mac app and not a website?</summary>
-        <p>A website would need your document on a server, which is the entire thing this is trying to avoid.</p>
-        <p>The next option was a local web interface, and that failed for a reason worth recording: WebKit will not render inside a sandbox with no network access. The offline promise chose the technology.</p>
+        <p>Stripii processes documents locally in a native Mac app, so that macOS itself can block it from the network. A web page that runs in your browser could also work offline, but nothing would stop a later version of the page from sending something.</p>
+        <p>A local web interface inside the app did not work either: WebKit will not render inside a sandbox with no network access. So the interface is native SwiftUI.</p>
       </details>
       <details>
         <summary>Why does macOS say it cannot verify the app?</summary>
-        <p>Because it is not notarised. That needs a paid Apple Developer account and this app is free. The warning means Apple has not scanned it, nothing more. The checksum and the <code>codesign</code> command are how you check it instead.</p>
+        <p>Because it is not notarised. It is ad-hoc signed, without an Apple Developer ID, so Apple has not scanned it for malware and macOS cannot confirm who made it. You are being asked to trust the download itself.</p>
+        <p>Two checks help, and each answers a narrower question. The checksum shows your file matches the one on the release page. The <code>codesign</code> command shows the sandbox permissions the app declares. Neither shows that the software is safe.</p>
       </details>
       <details>
         <summary>Intel Mac? Windows?</summary>
